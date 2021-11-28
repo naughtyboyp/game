@@ -1,0 +1,101 @@
+森源哥的后援团
+TimeLimit:1000MS  MemoryLimit:128MB
+64-bit integer IO format:%lld
+Problem Description
+总所周知， 协会里有很多森源哥的fans， 大家遇见森源哥就会发出
+
+{RQF9(CF(8}JUB`2M]B%LM0.jpg这样的表情，来表示自己对森源哥的热爱，
+
+现在森源哥向他的fans们提出了一个问题
+
+森源哥说，他手上有两大捆钱，假定这两捆钱分别为a1,a2...an和b1,b2...bn
+
+现在森源哥有一种魔法，
+
+他可以对钱a进行恰好k1次魔法, 对钱b进行恰好k2次魔法，
+
+每次魔法都可以使对应的钱序列中的某个钱面额减少1或增加1，
+
+森源哥现在希望两捆钱的 O~UU}{`@Y67I(6WO%2ZWV98.png最小，
+
+于是森源哥询问他的fans们，最小值为多少呢？
+
+Input
+第一行有三个整数, n(1 <= n <= 1000), k1, k2 (0 <= k1 + k2 <= 1000)
+
+第二行有n个整数, 代表a1,a2....an
+
+第三行有n个整数, 代表b1,b2....bn
+
+(-106 <= ai ,bi <= 106 )
+
+Output
+输出O~UU}{`@Y67I(6WO%2ZWV98.png的最小值
+
+SampleInput
+2 4 2
+8 10 
+3 7 
+SampleOutput
+2
+
+//对于贪心 思维题  不要着急  一时想不出来先跳出去 然后回来会有新的思路
+本题唯一的坑点应该是卡了long long,如果用int的话，最后的答案会爆int，思路也很好想，首先要注意的是对a数组进行k1次操作，对b数组进行k2次操作其实只是一个迷惑条件，
+如果真的按题目要求模拟码量会提升不少，我们可以假设ai - bi = ci，就可以将他们的差值存到c数组里，这样子问题就转为为对c数组进行k1+k2次操作，并使得c数组中较大的数尽量小
+至于为什么是较大的数尽量小就不需要证明了吧，[1, 3] 和 [2, 2]很明显后者的平方和较小
+
+
+//总结下来  就是一定要注意答案的范围，   相加可能爆int    其次就是 相乘可能爆int   再来就是 相乘爆long long 取模  就得快速乘取模  还有 幂运算取模  可能也会爆范围  就得快速幂取模
+//总结下来就是 坑点就是注意范围  1.会不会爆 int  2.会不会爆 long long   3. a*b%N  与  a^b%N  与 a/b%N  一定注意范围 
+#include<stdio.h>
+#include<stdlib.h>
+#include<math.h>
+int a[1005];
+int b[1005];
+int c[1005];
+int main()
+{
+    int n = 0;
+    int k1 = 0;
+    int k2 = 0;
+    scanf("%d%d%d", &n, &k1, &k2);
+    int i = 0;
+    for(i = 0; i<n; i++)
+    {
+        scanf("%d", &a[i]);
+    }
+    for(i = 0; i<n; i++)
+    {
+        scanf("%d", &b[i]);
+    }
+    for(i = 0; i<n; i++)
+    {
+        c[i] = abs(a[i] - b[i]);
+
+    }
+    int k = k1 + k2;
+    int j = 0;
+    long long ans = 0;//ans相加可能会爆int  所以建议用long long
+    for(i = 0; i<k; i++)
+    {
+        int max1 = 0;
+        for(j = 0; j<n; j++)
+        {
+            if(c[j] > c[max1])
+            {
+                max1 = j;
+            }
+        }
+        if(c[max1] == 0)
+        {
+            break;
+        }
+        c[max1]--;
+    }
+    for(i = 0; i<n; i++)
+    {
+        ans += pow(c[i],2);
+    }
+    printf("%lld", ans);
+    return 0;
+}
