@@ -1,0 +1,87 @@
+签到题看这里
+TimeLimit:1000MS  MemoryLimit:128MB
+64-bit integer IO format:%lld
+Problem Description
+为了庆祝edg夺冠，打算奖励大家一段签到题，题目是这样的：
+
+           给定一个函数f(n)，f(1),f(2)已知为k，当n大于2时，有f(n) = f(n - 1) + f(n - 2)。
+
+            问gcd(f(777),f(776))的值是多少。
+
+Input
+多组数据，每组一个k，1<=k<= 50.
+
+Output
+每组数据输出一行答案
+
+SampleInput
+1
+SampleOutput
+1
+
+G.	签到题看这里[数论只会gcd？(gcd都不会)]
+有定理gcd(a,b) = gcd(a, a - b).
+证明如下：
+设gcd(x,y)=d，则满足x=k1*d, y=k2*d, 易得
+k1与k2互质。
+情况1: x=y。显然,
+gcd(x,y)=x=gcd(x,0)=gcd(x,y-x)。
+情况2:x ！= y
+用反证法。
+假设k1,(k2 -k1)不互质，
+令gcb(k1.k2-k1) = m(m为正整数且m>1);
+k1 = m*a,k2-k1 = m*b
+k2 = (a+b)m
+即k1,k2有公约数m，与k1,k2互质矛盾
+所以假设不成立
+即k1,(k2-k1)互质
+所以gcb (x,x-y) = d = gcb(x,y)
+综上，gcd(x.,y)=gcd(x,y-x)o .
+命题得证
+所以 
+gcd(f(777), f(776)) = gcd(f(776), f(777) - f(776)) = gcd(f(776),f(775))
+...............
+gcd(f(2),f(1)) = k;
+即
+gcd(f(777),f(776)) = k.
+
+//本题的话  蒙题做法就是  数学归纳法 懵一下。。。
+//总结学到到了新的gcd结论
+
+1.设gcd(x,y)=d，则满足x=k1*d, y=k2*d, 易得
+k1与k2互质。
+
+
+假如k1 k2 不互质
+那么肯定有公因数 m  
+肯定有  k1 = m * q;
+       k2 = m * p;
+那么  x = m*d*q   
+      y = m*d*p
+      那么d肯定就不是最大公因数了啊
+      所以  k1 k2 互质
+    
+      
+2. 定理gcd(a,b) = gcd(a, a - b).  证明如上
+
+
+
+
+
+
+#include<stdio.h>
+#include<algorithm>
+#include<string.h>
+#include<math.h>
+#include<stdlib.h>
+//User id :053
+int main()
+{
+    int k = 0;
+    while(~scanf("%d", &k))
+    {
+
+        printf("%d\n", k);
+    }
+    return 0;
+}
